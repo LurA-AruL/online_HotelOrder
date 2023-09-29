@@ -192,24 +192,48 @@ const mutton_Dishes = [{
   }];
 
 
-function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendToMb}) {
+function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendToMb,filteredData,itemsSearchValue}) {
     const [cart, setCart] = useState(Cartdetails);
-    const [cartList, setCartList] = useState(biriyanilist);
+    const [cartList, setCartList] = useState(mutton_Dishes);
     // const [allItems, setAllItems] = useState();
     const [mobileCartDeliveryDis, setMobileCartDeliveryDis] = useState(false);
+    const [mbViewDirect, setMbViewDirect] = useState(false);
+
+    // ------------------------- Modal view and hide automatically -------------------
+    const [showModal, setShowModal] = useState(false);
+
+    //------------------------- searching items----------------------
+    const [filterDatas, setFilteredDatas] = useState([])
+    //------------------------- searching items end----------------------
+
 
     useEffect(() => {
          const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
          setCart(storedCart);
-        //  checking(storedCart);
-     }, [Cartdetails]);
+         inputvalueGetFun();  
+         
+     }, [Cartdetails,itemsSearchValue]);
 
+     // ------------------------- Modal view and hide automatically -------------------
+     const inputvalueGetFun = () =>{
+        setFilteredDatas(filteredData);
+        console.log(filteredData,"check value is there");
+     }
+
+    //  ----------------------modal close automatically -----------------------
+    const modalCloseAutomatically = () => {
+      if(cart.length === 0){
+        alert("hai your cart is zero");
+      }
+    }
+     
+    
 
     return (
         <div className=' w-100 position-relative'>
             <h2 className='d-none fs-lg-1 ps-lg-0 fw-bold'>Available Items</h2>
             {/* ------------------------------------- The Avaible items Filters Buttom components here---------------------  */}
-          <div className='pt-3 pb-1 mb-2  categorie position-sticky top-0'>
+          <div className='pt-3 pb-1 categorie position-sticky top-0 bg-white z-index_5'>
             {/* <Swiper
               slidesPerView={2}
               spaceBetween={10}
@@ -226,16 +250,16 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
               <SwiperSlide className='rounded'><button type='button' className='btn w-75 btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(mutton_Dishes)}>Mutton Dishes</button></SwiperSlide>
             </Swiper> */}
 
-            {/*-------------------------- Button scroll  -----------------------------*/}
+            {/*-------------------------- Button scroll mobile view  -----------------------------*/}
             <div className="slider-container position-sticky top-0 d-md-none">
-               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(biriyanilist)}>Biryani</button></div>
-               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(mutton_Dishes)}>Mutton Dishes</button></div>
-               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(fish_Dishes)}>Fish Dishes</button></div>
-               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(Chicken_Dishes)}>Chicken Dishes</button></div>
-               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(egg_Dishes)}>Egg Dishes</button></div>
+               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-1 px-sm-4 ' onClick={(e) => setCartList(biriyanilist)}>Biryani</button></div>
+               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-1 px-sm-4 ' onClick={(e) => setCartList(mutton_Dishes)}>Mutton Dishes</button></div>
+               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-1 px-sm-4 ' onClick={(e) => setCartList(fish_Dishes)}>Fish Dishes</button></div>
+               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-1 px-sm-4 ' onClick={(e) => setCartList(Chicken_Dishes)}>Chicken Dishes</button></div>
+               <div className="slider-item "><button type='button' className='btn w-100 btn_menu border px-1 px-sm-4 ' onClick={(e) => setCartList(egg_Dishes)}>Egg Dishes</button></div>
                {/* Add more slider items as needed */}
             </div>
-            <div className=' d-none d-md-block' >
+            <div className=' d-none d-lg-block py-2' >
               <div className=' d-flex flex-wrap gap-4' >
                 <button type='button' className='btn btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(biriyanilist)}>Biryani</button>
                 <button type='button' className='btn btn_menu border px-2 px-sm-4 ' onClick={(e) => setCartList(mutton_Dishes)}>Mutton Dishes</button>
@@ -246,8 +270,12 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
             </div>
           </div>
 
-            <div className='d-flex gap-2 flex-wrap py-2 card_Main position-relative'>
-                {cartList.map((currentData) => (
+          {/* -----------------------button end----------------------- */}
+
+          <div className='d-flex gap-2 flex-wrap py-2 card_Main  z-index_-5'>
+            {/*------------------- serach set--------------------------  */}
+
+            {itemsSearchValue.length > 0 ? filterDatas.length === 0 ? <p className='fs-6 fw-bold mt-5'>Give the correct name of the items</p> : filterDatas.map((currentData) => (
                     <div className="card col-1 my-lg-1 cardOuterWrapper" style={{ width: 17 + "rem" }} key={currentData.id}>
                         <div className='position-relative '>
                             <i className="bi bi-heart-fill position-absolute  hearticon text-white" id='heart'></i> {/* onClick={(color) => handleHeartAdd(currentData,color.target.id)} */}
@@ -261,22 +289,40 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
                             </div>
                         </div>
                     </div>
-                ))}
+                )) 
+                : 
+                cartList.map((currentData) => (
+                  <div className="card col-1 my-lg-1 cardOuterWrapper" style={{ width: 17 + "rem" }} key={currentData.id}>
+                      <div className='position-relative '>
+                          <i className="bi bi-heart-fill position-absolute  hearticon text-white" id='heart'></i> {/* onClick={(color) => handleHeartAdd(currentData,color.target.id)} */}
+                          <img src={currentData.img} className="card-img-top p-2 cart_imgae"  alt="no image found" />
+                      </div>
+                      <div className="card-body">
+                          <div className='d-flex justify-content-between'><h5 className="card-title">{currentData.title}</h5><div><button id='AddBtn' className='btn border fw-bold plubtn d-inline px-3 px-lg-3 text-white' onClick={(e) => addToCart({ item_id: currentData.id, item_name: currentData.title, item_price: currentData.price, item_qty: currentData.qty, item_image: currentData.img, event: e.target.id })}>Add</button></div></div>
+                          <div><span className='cardtext'><i className="bi bi-currency-rupee"></i>{currentData.price}</span></div>
+                          <div className='position-absolute top-100 start-50 translate-middle'>
+                              {/* {chageFoodItems === true ?  <FdItemIncrSamecart  setChageFoodItems={setChageFoodItems}/> : <></>}  */}
+                          </div>
+                      </div>
+                  </div>
+              )) } 
             </div>
 
             {cart.length === 0 ? 
-            <></> 
+
+            <></>
+
             :
       
             <>
             {/* // ---------------------------- modal view carts --------------------------- */}
 
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" show={showModal} onHide={() => setShowModal(false)}>
               <div className="modal-dialog modal-fullscreen-sm-down">
                 <div className="modal-content">
                   <div className="modal-header d-flex gap-2">
                     <div className=''>
-                    {mobileCartDeliveryDis === true ? <button type="button" className='btn p-0 me-3 '  onClick={(() => setMobileCartDeliveryDis(false))}><i className="bi bi-arrow-left pt-3 upArrowModalBtn"></i> <span className='ms-3 p-1'>Delivery Details</span></button> :
+                    {mobileCartDeliveryDis === true ? <button type="button" className='btn p-0 me-3 '  onClick={(() => setMobileCartDeliveryDis(false))}><i className="bi bi-arrow-left pt-3 fs-4 upArrowModalBtn"></i> <span className='ms-3 p-1'>Delivery Details</span></button> :
                         <h5 className="modal-title" id="staticBackdropLabel"> My Order </h5>}
                     </div>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
@@ -284,7 +330,8 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
            {/* ----------------- display  modal body -------- */}
                   <div className="modal-body">
            {/* ----------------- display  carts views-------- */}
-                {mobileCartDeliveryDis ===  true ? <Delivery /> : 
+              
+           {mobileCartDeliveryDis ===  true ? <Delivery   formattedAmount={formattedAmountSendToMb}/> : 
                     cart.map((e, index) => (
                     <div className="card border-0 mb-1 w-100" key={index}>
                       <div className="row px-3">
@@ -295,17 +342,9 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
                           <div className="card-body">
                             <div className='d-flex justify-content-between'>
                               <h5 className="card-title asideCartHeader" >{e.item_name}</h5>
-                              <div className="card-price SideCardprice d-flex">
-                                {/* <i className="bi bi-currency-rupee "></i> */}
-                                {/*------------------------- adding price Area------------------------ */}
-                                {cart.map((item, index) => (
-                                  <div key={index} className=' mobileViewCartAmount'>
-                                    {item.item_id === e.item_id ?  item.item_qty + ' x ' +item.item_price : <></>}
-                                  </div>
-                                ))}
-                              </div>
+                              
                             </div>
-                            <div className='mt-1'>
+                            <div className='mt-1 d-flex'>
                               {/* --------------- add and removing Area------------------------- */}
                               {cart.map((item, index) => (
                                 <div key={index} className='d-flex gap-3 align-item-center '>
@@ -316,7 +355,15 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
                                     : <></>}
                                 </div>
                               ))}
-                             
+                             <div className="card-price SideCardprice d-flex align-items-center justify-content-end w-100 ">
+                                {/* <i className="bi bi-currency-rupee "></i> */}
+                                {/*------------------------- adding price Area------------------------ */}
+                                {cart.map((item, index) => (
+                                  <div key={index} className=' mobileViewCartAmount'>
+                                    {item.item_id === e.item_id ?  item.item_qty + ' x ' +item.item_price : <></>}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -324,22 +371,50 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
                     </div>                                    
                   ))
                 }
+              
                   </div>
+                  {mobileCartDeliveryDis === false ?
                   <div className="modal-footer d-flex justify-content-between">
                     <div className='d-flex w-100 justify-content-between'>
-                        <div className=''><span className='fw-bold'>Total Amount: </span>{formattedAmountSendToMb}<button type="button" className="btn upArrowModalBtn" data-bs-dismiss="modal"><i className="bi bi-chevron-down"></i></button></div>
+                        <div className=' d-flex align-items-center'><span className='fw-bold'>Total {formattedAmountSendToMb}</span><i data-bs-toggle="modal" data-bs-target="#staticBackdrop" className="bi bi-chevron-up ps-2 fs-6 upArrowModalBtn front_corsur"></i></div>
                         <div className='d-flex gap-2'><button type="submit" onClick={(() => setMobileCartDeliveryDis(true))} className="btn border w-100 bg-warning whatsappBtn "><i className="bi bi-whatsapp px-2 text-success"></i>Order on Whatsapp</button></div>  
                     </div>
+                  </div>
+                  : <></>}
+                </div>
+              </div>
+            </div>
+            {/* // ----------------------------- modal end view ---------------------------- */}
+
+            {/* // ---------------------------- modal view carts --------------------------- */}
+
+            <div className="modal fade" id="MovieViewDirectDelivery" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div className="modal-dialog modal-fullscreen-sm-down">
+                <div className="modal-content">
+                  <div className="modal-header d-flex gap-2">
+                    <div className=''>
+                    <span className='ms-3 p-1'>Delivery Details</span>
+                    </div>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
+                  </div>
+           {/* ----------------- display  modal body -------- */}
+                  <div className="modal-body">
+           {/* ----------------- display  carts views-------- */}
+              
+           {mbViewDirect ===  true ? <Delivery   formattedAmount={formattedAmountSendToMb}/> : <></>}
                   </div>
                 </div>
               </div>
             </div>
             {/* // ----------------------------- modal end view ---------------------------- */}
-            <div className='container footerCartrMb rounded position-fixed'>
-                  <div className='row text-white p-2 footerCartrMb_TotalAmount'>
-                    <div className='col-5 p-0'>Total: {formattedAmountSendToMb}</div>
+            <div className='container footerCartrMb rounded position-fixed d-lg-none'>
+                  <div className='row text-black p-2 footerCartrMb_TotalAmount'>
+                    <div className='col-5 d-flex  flex-column g-1 '>
+                      <div className='fw-bold items'><span>{cart.length} {cart.length > 1 ? "Items" : "Item"} </span><i data-bs-toggle="modal" data-bs-target="#staticBackdrop" className="bi bi-chevron-up upArrowModalBtn front_corsur text-white"></i></div>
+                      <div className='fw-bold'>Total: {formattedAmountSendToMb}</div>
+                    </div>
                     {/* <div className='col-3 ps-1 text-end position-relative'>View<span className="position-absolute top-0 start-100 translate-middle badge rounded bg-white text-dark badge_footerMb">{cart.length}</span></div> */}
-                    <div className='col-7 text-end'>order proceed<button type="button" className="btn py-0 " data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i className="bi bi-chevron-up ms-1 upArrowModalBtn front_corsur text-white"></i></button></div>
+                    <div className='col-7 p-0 d-flex justify-content-end  align-items-center'><button type="button" onClick={(() => setMbViewDirect(true))} className="btn footerCartrMb_OrdeBtn me-2 text-success" data-bs-toggle="modal" data-bs-target="#MovieViewDirectDelivery"><i className="bi bi-whatsapp pe-1 whatsAppICon" ></i>Order on Whatsapp <i class="bi bi-arrow-right-circle-fill"></i></button></div>
                   </div>
             </div>
             </>
@@ -349,3 +424,4 @@ function ShoppingCart({Cartdetails,removeFromCart,addToCart,formattedAmountSendT
 }
 
 export default ShoppingCart;
+ 

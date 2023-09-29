@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 
-function DeliveryDetails({CartdetailstoDelivery}) {
+function DeliveryDetails({CartdetailstoDelivery,formattedAmount}) {
 
     const [orderSend, setOrderSend] = useState([]);
 
@@ -78,6 +78,7 @@ function DeliveryDetails({CartdetailstoDelivery}) {
     if (validateForm()) {
       // Submit the form data or perform further actions
       console.log("Form is valid and can be submitted.");
+      const Nil = '-Nil';
       const total = orderSend.map(e => e.item_qty *  e.item_price).reduce((e,ee) => e+ee );
       const orderDetails = orderSend.map(event => `${event.item_qty} x ${event.item_name} = ${event.item_qty * event.item_price}`);
       const deliveryDetails = `Name: ${formData.name}\nContact Number: ${formData.phoneNumber}\nAddress: ${formData.address1}\nAddress2: ${formData.address2}`;
@@ -99,7 +100,7 @@ ${orderDetails.join('\n')}
 ${deliveryDetails}
 
 *Special Instruction:* 🎯
--Nil
+${formData.comments.trim().length === 0 ? Nil : formData.comments  }
 
 _Kindly confirm the above details to proceed with your order_ 👆`;
 
@@ -200,8 +201,13 @@ _Kindly confirm the above details to proceed with your order_ 👆`;
         </div>
 
         <div className="form-group pt-3 whatsappBtnWrapper  sticky-lg-bottom d-none d-lg-block">
-          <button type="submit" className="btn border w-100 bg-warning whatsappBtn"><i className="bi bi-whatsapp px-2 text-success"></i>Order on Whatsapp</button>
+          <button type="submit" className="btn border w-100 bg-warning whatsappBtn"><i className="bi bi-whatsapp px-2 text-success"></i>Place an Order</button>
         </div>
+
+        <div className="form-group fixed-bottom d-sm-none d-flex border-top p-2">
+                    <div className="w-25 p-2 fw-bold d-flex align-items-center">Total <span className=" ps-2 fw-normal">{formattedAmount}</span></div>
+                    <div className="w-75 p-2 text-end"><button type="submit" className="btn border bg-warning whatsappBtn "><i className="bi bi-whatsapp px-2 text-success"></i>Place an Order</button></div>
+                </div>
       </form>
     </div>
   );

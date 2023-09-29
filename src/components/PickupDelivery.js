@@ -1,10 +1,11 @@
 
 import React, { useEffect, useState } from "react";
 
-function PickupDelivery({ CartdetailstoDelivery }) {
+function PickupDelivery({ CartdetailstoDelivery,formattedAmount}) {
 
     const [orderSend, setOrderSend] = useState([]);
     const [specialComments,setSpecialComments] = useState(false);
+
     useEffect(() => {
 
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -53,11 +54,6 @@ function PickupDelivery({ CartdetailstoDelivery }) {
         } else if (phoneNumber.length !== 10) {
             newErrors.phoneNumber = "Phone Number must be 10 numbers";
         }
-        if(!comments){
-            setSpecialComments(true);
-            console.log('checking comments');
-        }
-
        
         // Simple validation for comments (required)
 
@@ -68,9 +64,11 @@ function PickupDelivery({ CartdetailstoDelivery }) {
     };
 
     const handleSubmit = (e) => {
-
         e.preventDefault();
+
         if (validateForm()) {
+
+            console.log(specialComments,'condition');
             // Submit the form data or perform further actions
             console.log("Form is valid and can be submitted.");
             const Nil = '-Nil';
@@ -95,7 +93,7 @@ ${orderDetails.join('\n')}
 ${deliveryDetails}
 
 *Special Instruction:* 🎯
-    ${specialComments === false ? Nil : formData.comments  }
+    ${formData.comments.trim().length === 0 ? Nil : formData.comments  }
 
     _Kindly confirm the above details to proceed with your order_ 👆`;
 
@@ -104,6 +102,8 @@ ${deliveryDetails}
             // console.log(document.forms[0][0].value = " ");
             // console.log(document.forms[0][1].value = " ");
             // console.log(document.forms[0][2].value = " ");
+
+            // formDataRecivings("hai");
 
             window.open(`https://api.whatsapp.com/send/?phone=${formData.phoneNumber}&text=${sendData}&type=phone_number&app_absent=0`, '_blank');
         } else {
@@ -124,7 +124,7 @@ ${deliveryDetails}
     };
 
     return (
-        <div className="container ">
+        <div className="container Delivery_OuterWrapper">
             <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 pt-3 position-relative">
                 <div className="form-group">
                     <label htmlFor="name" className="font_Headers">Name:</label>
@@ -169,7 +169,11 @@ ${deliveryDetails}
 
 
                 <div className="form-group sticky-lg-bottom d-none d-lg-block">
-                    <button type="submit" className="btn border w-100 bg-warning whatsappBtn "><i className="bi bi-whatsapp px-2 text-success"></i>Order on Whatsapp</button>
+                    <button type="submit" className="btn border w-100 bg-warning whatsappBtn "><i className="bi bi-whatsapp px-2 text-success"></i>Place an Order</button>
+                </div>
+                <div className="form-group fixed-bottom d-sm-none d-flex border-top p-2">
+                    <div className="w-25 p-2 fw-bold d-flex align-items-center">Total <span className=" ps-2 fw-normal">{formattedAmount}</span></div>
+                    <div className="w-75 text-end p-2"><button type="submit" className="btn border bg-warning whatsappBtn "><i className="bi bi-whatsapp px-2 text-success"></i>Place an Order</button></div>
                 </div>
             </form>
         </div>

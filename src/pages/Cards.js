@@ -38,9 +38,14 @@ export default function Cards(props) {
 }
   return (
     <>
-    <div className=' px-2 w-100' >
+    <div className=' px-2 w-100 cartsWrapper' >
       {getData.length <= 0 ?
-      <img src='assests/emtycart.gif' className='w-100' alt='no image' /> :
+      <div className='heartImg_Wrapper text-center'>
+        <div className='d-flex flex-column justify-content-center'>
+          <img src='assests/emtycart1.gif' className='w-100' alt='no image' />
+          <p className='fs-6 fw-bold text-secondary pt-2'>Your cart is empty</p>
+        </div>
+      </div> :
       getData.map((e,index) => ( 
         <div className=' p-2 d-flex' key={index}>
           <div className="card mb-3 shadow border-0 ms-4" style={{maxWidth: 450+"px"}}>

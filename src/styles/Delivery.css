@@ -80,8 +80,10 @@
 
     /*---------------------------- media query --------------------------- */
 
-@media only screen  and (max-width:578px) and (min-width:0) {
-
+@media only screen  and (max-width:992px) and (min-width:0) {
+    /* .Delivery_OuterWrapper{ */
+        /* height: 100dvi; */
+    /* } */
     .whatsappBtnWrapper{
         position:none !important;
         /* bottom: auto; */

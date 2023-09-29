@@ -11,7 +11,10 @@ html,body{
   .promotionText{
     font-size: 12pt;
   }
-  
+    /* ---------------------NavBar_Bg----------------  */
+    .NavBar_Bg{
+      background-color: #ebebeb;
+    }
 
   /* --------------------------------nav bar navIcons------------------- */
   .NavBarFooter_inner_icons{
@@ -34,6 +37,12 @@ html,body{
     color: orange !important;
   
     
+  }
+
+  /* ----------------------------------- NavBarFooter inner icons active----------------------------- */
+  .navLink_icons_active{
+    /* padding-bottom: 10px; */
+    border-right: 4px solid orange;
   }
 /* ----------------------------------- cart div ---------------------------------- */
 
@@ -78,7 +87,7 @@ input:focus
 }
 .carousel-item{
   width: 100%;
-  height: 210px;
+  height: 200px;
   background-color: rgb(255, 255, 255) !important;
 }
 
@@ -89,10 +98,17 @@ input:focus
 }
 
 
-/* cartItems_Scroll  */
+/* cartItems_Scroll  */  
+/* --------------------------------------- old one --------------*/
 .cartItems_Scroll{
-  max-height: 400px;
+  height: 74vh !important;     
   scroll-behavior:smooth;
+}
+.my-order{
+  height: 8vh !important;
+}
+.asideBg_color_footer{
+  height: 18vh !important;
 }
 
 /* side btn icon */
@@ -115,6 +131,8 @@ input:focus
   text-shadow: 1px 1px 1px orange;
   font-weight: 600;
   font-size: 12pt;
+  transform: matrix(360deg);
+  transition: all 0.5s linear;
   opacity: 0.5;
 }
 .rupesText{
@@ -122,7 +140,11 @@ input:focus
   font-weight: 600;
 }
 .asideBg_color{
-  background-color: rgba(221, 221, 221,0.298);
+  background-color: rgba(221, 221, 221,0.598);
+}
+.asideBg_color_footer{
+  background-color: rgba(221, 221, 221,0.998);
+  z-index: 5;
 }
 
 
@@ -248,13 +270,28 @@ input:focus
   height: 30px;
 }
 
+/* ----------------- Aside Footer Button ----------------- */
+.Asidefooter{
+  width: 80% !important;
+}
 
 
 /* button categories */
 
-@media only screen  and (max-width:578px) and (min-width:0) {
+@media only screen  and (max-width:992px) and (min-width:0) {
 
-
+  /*--------------------------- home Main Div----------------------- */
+  .homeMainDiv{
+    width: 100% !important;
+  }
+  .navLink_icons_active{
+    border-right: 0px !important;
+  }
+  .NavBarFooter_inner_icons_active{
+    border: 2px solid red !important;
+    border-bottom: 5px solid rgb(0, 0, 0) !important;
+  }
+  
   /* app.js css */
 
   /* -------------------------------- nav bar footer convert ------------------------------  */
@@ -264,15 +301,20 @@ input:focus
     width: 100% !important;
     min-height: 50px !important;
     z-index: 4;
-    top: 93.5%;
+    top: 93%;
+  }
+  .NavBar_Bg{
+    /* background-color: white !important; */
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
   }
   .NavBarFooter_inner{
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:rgb(255, 194, 82);
-    padding: 5px;
+    background-color:rgba(255, 255, 255, 0.892) !important;
+    padding: 5px 0px;
     border-top-left-radius: 10px !important;
     border-top-right-radius: 10px !important;
   }
@@ -284,17 +326,15 @@ input:focus
     border-bottom-right-radius: 50%;
     border-bottom: 3px solid white;
     border-top-width: 0px ;
-    top: -18px;
+    top: -10px;
     transition: all 0.3s linear;
   }
 
-  .NavBarFooter_inner_icons:hover{
+  /* .NavBarFooter_inner_icons:hover{
     color: black !important;
-    /* position: absolute; */
-    border-bottom: 5px solid rgb(5, 5, 5);
-    top: -35px;
-    /* left: 55px; */
-  }
+    border-bottom:  5px solid rgb(5, 5, 5);
+    top: -20px;
+  } */
   .sidebar_main_inner{
     display: flex;
     flex-direction: column;
@@ -318,9 +358,8 @@ input:focus
 
   /*------------------ barge--------------- */
   #badgeChangePosition{
-    background-color: black !important;
-    top: 45% !important;
-    margin-left: 2px;
+    top: 35% !important;
+    margin-left: -5px;
   }
 
   /*---------------- promotion text---------------- */
@@ -345,7 +384,8 @@ input:focus
   }
   .panner_image{
     max-width: 100%;
-    height: 120px !important;
+    object-fit: cover;
+    /* height: 120px !important; */
     /* display: block; Remove any extra spacing caused by inline elements */
     /* margin: 0 auto; */
   }

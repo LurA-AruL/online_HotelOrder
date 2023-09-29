@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import '../styles/HeartItems.css'
 // import Additem from '../components/Additem';
 
 export default function Heart() {
@@ -25,9 +26,14 @@ export default function Heart() {
 }
   return (
     <>
-    <div className=' px-2 w-100' >
+    <div className=' px-2 w-100 cartsWrapper' >
       {getData.length <= 0 ?
-      <img src="https://cdn.dribbble.com/users/2333097/screenshots/8574268/media/c024e71216d2ce5d8dd97c81781d573b.gif" className='w-100' alt='noimage' /> :
+      <div className='heartImg_Wrapper text-center'>
+        <div className='d-flex flex-column justify-content-center'>
+          <img src='https://cdn.dribbble.com/users/2333097/screenshots/8574268/media/c024e71216d2ce5d8dd97c81781d573b.gif' className='w-100' alt='no image' />
+          <p className='fs-6 fw-bold text-secondary pt-2'>Your Heart List is empty</p>
+        </div>
+      </div> :
       getData.map(e => (
         <div className=' p-2 d-flex'>
           <div className="card mb-3 border-1 ms-4" style={{maxWidth: 300+"px"}}>
